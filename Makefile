@@ -1,8 +1,11 @@
 CC = gcc
 AR = ar
 FLAGS= -Wall -g
-all: loops.a recursives.a recursived.so loopd.so maindloop maindrec mains
-
+all: libclassloops.a libclassrec.a libclassrec.so libclassloops.so maindloop maindrec mains
+loops: libclassloops.a
+loopd: libclassloops.so
+recursives: libclassrec.a
+recursived: libclassrec.so
 mains: main.o libclassrec.a 
 	$(CC) $(FLAGS) -o mains main.o libclassrec.a  -lm
 
@@ -11,14 +14,14 @@ maindloop: main.o libclassloops.so
 
 maindrec: main.o libclassrec.so 
 	$(CC) $(FLAGS) -o maindrec main.o ./libclassrec.so -lm
-recursives.a: basicClassification.o advancedClassificationRecursion.o
+libclassrec.a: basicClassification.o advancedClassificationRecursion.o
 	$(AR) -rcs libclassrec.a basicClassification.o advancedClassificationRecursion.o
-loops.a: basicClassification.o advancedClassificationLoop.o 
+libclassloops.a: basicClassification.o advancedClassificationLoop.o 
 	$(AR) -rcs libclassloops.a basicClassification.o advancedClassificationLoop.o
-recursived.so: basicClassification.o advancedClassificationRecursion.o
+libclassrec.so: basicClassification.o advancedClassificationRecursion.o
 	$(CC) -shared -o libclassrec.so basicClassification.o advancedClassificationRecursion.o -lm
 
-loopd.so: basicClassification.o advancedClassificationLoop.o
+libclassloops.so: basicClassification.o advancedClassificationLoop.o
 	$(CC) -shared -o libclassloops.so basicClassification.o advancedClassificationLoop.o -lm
 
 
